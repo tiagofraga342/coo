@@ -2,8 +2,8 @@
  * Classe que contém informações das peças de jogo
  */
 public class Piece {
-	private Color color;
-	private boolean isMaster;
+	private final Color color;
+	private final boolean isMaster;
     /**
      * Construtor que define a cor e o tipo da peça
      * @param color Cor da peça
