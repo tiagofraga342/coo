@@ -149,7 +149,7 @@ public class GameImpl implements Game {
     	int cardMoveRow = cardMove.getRow();
     	int currentPosCol = currentPos.getCol();
     	int currentPosRow = currentPos.getRow();
-    	/*
+    	
     	// Verifica se é o jogador correto no turno
     	if(board[currentPosRow][currentPosCol].getColor() != currentPlayer.getPieceColor())
     		throw new IncorrectTurnOrderException("ERRO: este não é o turno correto para esse jogador");
@@ -162,9 +162,13 @@ public class GameImpl implements Game {
     	// Verifica se a carta usada está na mão do jogador atual
     	if(!currentPlayer.isOnHand(card))
     		throw new InvalidCardException("ERRO: Esta carta não está na mão do jogador atual");
-    	//TODO: Verifica se tenta usar uma peça que não está no tabuleiro
-    	// Como eu verifico se uma peça está no tabuleiro?
-    	*/
+    	//Verifica se tenta usar uma peça que não está no tabuleiro
+    	if(currentPosRow > 4 || currentPosCol > 4) 
+    		throw new InvalidPieceException("ERRO: Essa peça não está no tabuleiro");
+    	// Vê se na posição atual existe uma peça e vê se a posição atual está dentro do tabuleiro
+    	if(board[currentPosRow][currentPosCol].getPiece() == null)
+    		throw new InvalidPieceException("ERRO: Não existe uma peça nessa posição");
+    	
     	// Coloca a peça que estava na posição antiga na posição nova e atualiza a cor
     	board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].occupySpot(board[currentPosRow][currentPosCol].getPiece());
     	// Libera a posição antiga e atualiza a cor
@@ -184,13 +188,37 @@ public class GameImpl implements Game {
      */
     public boolean checkVictory(Color color) {
     	// Busca posição do mestre adversário e do mestre da cor atual
+    	boolean thereIsRedMaster = false;
+    	int redMasterRow = -1;
+    	int redMasterCol = -1;
+    	boolean thereIsBlueMaster = false;
+    	int blueMasterRow = -1;
+    	int blueMasterCol = -1;
     	for(int i = 0; i < 5; i++) {
     		for(int j = 0; j < 5; j++) {
-    			
+    			if(board[i][j].getPiece().isMaster()) {
+    				if(board[i][j].getColor() == Color.RED) {
+    					thereIsRedMaster = true;
+    					redMasterRow = i;
+    					redMasterCol = j;
+    				}
+    				else if(board[i][j].getColor() == Color.BLUE) {
+    					thereIsBlueMaster = true;
+    					blueMasterRow = i;
+    					blueMasterCol = j;
+    				}
+    			}
     		}
     	}
     	// Se não existe o mestre da cor no tabuleiro
+    	if(!thereIsBlueMaster && color == Color.RED) return true;
+    	if(!thereIsRedMaster && color == Color.BLUE) return true;
+    	
     	// Se a posição do mestre dessa cor está no templo da cor adversária
+    	if(blueMasterRow == 4 && blueMasterCol == 2 && color == Color.BLUE)
+    		return true;
+    	else if(redMasterRow == 0 && redMasterCol == 2 && color == Color.RED)
+    		return true;
     	return false;
     }
 

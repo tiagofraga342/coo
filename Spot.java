@@ -25,6 +25,7 @@ public class Spot {
     public Spot(Piece piece, Position pos) {
     	this.piece = piece;
     	this.pos = pos;
+    	color = Color.NONE;
     }
 
     /**
