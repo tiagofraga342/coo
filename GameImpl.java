@@ -183,6 +183,14 @@ public class GameImpl implements Game {
      * @return Um booleano true para caso esteja em condições de vencer e false caso contrário
      */
     public boolean checkVictory(Color color) {
+    	// Busca posição do mestre adversário e do mestre da cor atual
+    	for(int i = 0; i < 5; i++) {
+    		for(int j = 0; j < 5; j++) {
+    			
+    		}
+    	}
+    	// Se não existe o mestre da cor no tabuleiro
+    	// Se a posição do mestre dessa cor está no templo da cor adversária
     	return false;
     }
 
