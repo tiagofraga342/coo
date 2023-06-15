@@ -61,10 +61,10 @@ public class Card {
     	Random rand = new Random();
 		Card[] gameCards = new Card[5];
 		
-		for(int i = 0; i < 5; i++) {
+		/*for(int i = 0; i < 5; i++) {
 			int randomIndexToSwap = rand.nextInt(8);
 			gameCards[i] = allCards[randomIndexToSwap];
-		}
+		}*/
 		
 		for (int i = 0; i < 8; i++) {
 			int randomIndexToSwap = rand.nextInt(8);
@@ -78,5 +78,25 @@ public class Card {
 		}
 		
 		return gameCards;
+    }
+    
+    // Recebe um deck e embaralha ele e retorna um vetor com 5 cartas para o jogo
+    public static Card[] suffleDeck(Card[] deck) {
+    	Random rand = new Random();
+		Card[] gameCards = new Card[5];
+		
+		for (int i = 0; i < deck.length; i++) {
+			int randomIndexToSwap = rand.nextInt(8);
+			Card temp = deck[randomIndexToSwap];
+			deck[randomIndexToSwap] = deck[i];
+			deck[i] = temp;
+		}
+
+		for(int i = 0; i < 5; i++) {
+			gameCards[i] = deck[i];
+		}
+		
+		return gameCards;
+
     }
 }
