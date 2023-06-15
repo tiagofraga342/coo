@@ -162,7 +162,7 @@ public class GameImpl implements Game {
     	// Verifica se a carta usada está na mão do jogador atual
     	if(!currentPlayer.isOnHand(card))
     		throw new InvalidCardException("ERRO: Esta carta não está na mão do jogador atual");
-    	//Verifica se tenta usar uma peça que não está no tabuleiro
+    	// Verifica se tenta usar uma peça que não está no tabuleiro
     	if(currentPosRow > 4 || currentPosCol > 4) 
     		throw new InvalidPieceException("ERRO: Essa peça não está no tabuleiro");
     	// Vê se na posição atual existe uma peça e vê se a posição atual está dentro do tabuleiro
