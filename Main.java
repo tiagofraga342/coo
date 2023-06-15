@@ -11,7 +11,7 @@ public class Main {
 		for(int i = 0; i < 2; i++) {
 			System.out.println(tiagoCards[i].getName());
 		}
-		jogo1.makeMove(jogo1.getCurrentPlayer().getCards()[1], jogo1.getCurrentPlayer().getCards()[1].getPositions()[0], new Position(0, 1));
+		jogo1.makeMove(jogo1.getCurrentPlayer().getCards()[1], jogo1.getCurrentPlayer().getCards()[1].getPositions()[0], new Position(0, 2));
 		jogo1.printBoard();
 	}
 }
