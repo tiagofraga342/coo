@@ -64,9 +64,8 @@ public class Spot {
      * @param piece A peça para ocupar este espaço
      * @exception IllegalMovementException Caso o espaço já esteja ocupado por uma peça da mesma cor
      */
-    protected void occupySpot(Piece piece) throws IllegalMovementException {
-    	//TODO: Verificar se é um movimento ilegal
-    	
+    protected void occupySpot(Piece piece) throws IllegalMovementException {    	
+    	this.color = piece.getColor();
     	this.piece = piece;
     }
 
@@ -74,6 +73,7 @@ public class Spot {
      * Método que "libera" o espaço atual, ou seja, deixa-o vazio
      */
     protected void releaseSpot() {
+    	this.color = null;
     	this.piece = null;
     }
 }

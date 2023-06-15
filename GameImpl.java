@@ -7,7 +7,12 @@ public class GameImpl implements Game {
 	private Player currentPlayer;
 	private final static int BOARD_SIZE = 5;
 	
-	//TODO: Método para validar movimento
+	// Método para validar movimento
+	//TODO: testar
+	public boolean isValid(Spot s) {
+		if((s.getPosition().getRow() > 4 || s.getPosition().getRow() < 0) || (s.getPosition().getCol() > 4 || s.getPosition().getRow() < 0)) return false;
+		return true;
+    }
 	// Método para atualizar a vez do jogador
 	private void updatePlayer() {
 		if(currentPlayer == bluePlayer) currentPlayer = redPlayer;
@@ -132,7 +137,20 @@ public class GameImpl implements Game {
      * @exception InvalidPieceException Caso uma peça que não está no tabuleiro seja usada
      */
     public void makeMove(Card card, Position cardMove, Position currentPos) throws IncorrectTurnOrderException, IllegalMovementException, InvalidCardException, InvalidPieceException {
+    	// Pega as colunas e linhas das posições
+    	int cardMoveCol = cardMove.getCol();
+    	int cardMoveRow = cardMove.getRow();
+    	int currentPosCol = currentPos.getCol();
+    	int currentPosRow = currentPos.getRow();
     	
+    	// Coloca a peça que estava na posição antiga na posição nova e atualiza a cor
+    	board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].occupySpot(board[currentPosRow][currentPosCol].getPiece());
+    	// Libera a posição antiga e atualiza a cor
+    	board[currentPosRow][currentPosCol].releaseSpot(); 
+    	// Troca a carta do jogador atual com a da mesa
+    	currentPlayer.swapCard(card, tableCard);
+    	// Atualiza o jogador atual
+    	updatePlayer();
     }
 
     /**
