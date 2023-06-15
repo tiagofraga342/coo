@@ -126,6 +126,9 @@ public class GameImpl implements Game {
     	return bluePlayer;
     }
 
+    public Player getCurrentPlayer() {
+    	return currentPlayer;
+    }
     /**
      * Método que move uma peça
      * @param card A carta de movimento que será usada
@@ -142,7 +145,22 @@ public class GameImpl implements Game {
     	int cardMoveRow = cardMove.getRow();
     	int currentPosCol = currentPos.getCol();
     	int currentPosRow = currentPos.getRow();
-    	
+    	/*
+    	// Verifica se é o jogador correto no turno
+    	if(board[currentPosRow][currentPosCol].getColor() != currentPlayer.getPieceColor())
+    		throw new IncorrectTurnOrderException("ERRO: este não é o turno correto para esse jogador");
+    	// Verifica se o movimento da peça não ultrapassa o tabuleiro
+    	if(isValid(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol]))
+    		throw new IllegalMovementException("ERRO: Movimento inválido que ultrapassa os limites do tabuleiro");
+    	// Verifica se o movimento da peça não incide em outra peça da mesma cor
+    	if(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].getColor() == board[currentPosRow][currentPosCol].getColor())
+    		throw new IllegalMovementException("ERRO: Movimento inválido que incide numa peça de mesma cor");
+    	// Verifica se a carta usada está na mão do jogador atual
+    	if(!currentPlayer.isOnHand(card))
+    		throw new InvalidCardException("ERRO: Esta carta não está na mão do jogador atual");
+    	//TODO: Verifica se tenta usar uma peça que não está no tabuleiro
+    	// Como eu verifico se uma peça está no tabuleiro?
+    	*/
     	// Coloca a peça que estava na posição antiga na posição nova e atualiza a cor
     	board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].occupySpot(board[currentPosRow][currentPosCol].getPiece());
     	// Libera a posição antiga e atualiza a cor

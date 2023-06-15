@@ -81,4 +81,12 @@ public class Player {
 		newCard = oldCard;
 		oldCard = temp;
     }
+    public boolean isOnHand(Card card) {
+    	for(int i = 0; i < 2; i++) {
+    		if(cards[i] == card) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 }
