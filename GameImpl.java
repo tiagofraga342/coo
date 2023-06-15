@@ -71,12 +71,15 @@ public class GameImpl implements Game {
 			}
 		}
 		// Parte de cima (azul)
-		for(int i = 0; i < BOARD_SIZE; i++)
-			board[0][i] = new Spot(new Piece(Color.BLUE, false), new Position(0, i), Color.BLUE);
-		
+		for(int i = 0; i < BOARD_SIZE; i++) {
+			if(i == 2) board[0][i] = new Spot(new Piece(Color.BLUE, true), new Position(0, i), Color.BLUE);
+			else board[0][i] = new Spot(new Piece(Color.BLUE, false), new Position(0, i), Color.BLUE);
+		}
 		// Parte de baixo (vermelho)
-		for(int i = 0; i < BOARD_SIZE; i++)
-			board[4][i] = new Spot(new Piece(Color.RED, false), new Position(4, i), Color.RED);
+		for(int i = 0; i < BOARD_SIZE; i++) {
+			if(i == 2) board[4][i] = new Spot(new Piece(Color.RED, true), new Position(4, i), Color.RED);
+			else board[4][i] = new Spot(new Piece(Color.RED, false), new Position(4, i), Color.RED);
+		}
 		
 		return board;
 	}
