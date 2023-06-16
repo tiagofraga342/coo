@@ -5,7 +5,7 @@ public class GameImpl implements Game {
 	private Player redPlayer;
 	private Player bluePlayer;
 	private Player currentPlayer;
-	private final static int BOARD_SIZE = 5;
+	public final static int BOARD_SIZE = 5;
 	
 	// Método para validar movimento
 	//TODO: testar
@@ -70,15 +70,17 @@ public class GameImpl implements Game {
 				board[i][j] = new Spot(new Position(i, j));
 			}
 		}
-		// Parte de cima (azul)
+		// Parte colorida
 		for(int i = 0; i < BOARD_SIZE; i++) {
-			if(i == 2) board[0][i] = new Spot(new Piece(Color.BLUE, true), new Position(0, i), Color.BLUE);
-			else board[0][i] = new Spot(new Piece(Color.BLUE, false), new Position(0, i), Color.BLUE);
-		}
-		// Parte de baixo (vermelho)
-		for(int i = 0; i < BOARD_SIZE; i++) {
-			if(i == 2) board[4][i] = new Spot(new Piece(Color.RED, true), new Position(4, i), Color.RED);
-			else board[4][i] = new Spot(new Piece(Color.RED, false), new Position(4, i), Color.RED);
+			// Templo
+			if(i == 2) {
+				board[0][i] = new Spot(new Piece(Color.BLUE, true), new Position(0, i), Color.BLUE);
+				board[4][i] = new Spot(new Piece(Color.RED, true), new Position(4, i), Color.RED);
+			}
+			else {
+				board[0][i] = new Spot(new Piece(Color.BLUE, false), new Position(0, i));
+				board[4][i] = new Spot(new Piece(Color.RED, false), new Position(4, i));
+			}
 		}
 		
 		return board;

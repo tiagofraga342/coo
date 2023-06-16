@@ -34,6 +34,7 @@ public class Spot {
      */
     public Spot(Position pos) {
     	this.pos = pos;
+    	color = Color.NONE;
     }	
 
     /**
@@ -66,6 +67,9 @@ public class Spot {
      * @exception IllegalMovementException Caso o espaço já esteja ocupado por uma peça da mesma cor
      */
     protected void occupySpot(Piece piece) throws IllegalMovementException {    	
+    	if(this.piece != null)
+    		throw new IllegalMovementException("Casa já ocupada!");
+    	
     	this.color = piece.getColor();
     	this.piece = piece;
     }
