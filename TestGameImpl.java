@@ -59,18 +59,73 @@ public class TestGameImpl {
 	public void testGetTableCard() {
 		assertNotNull(g1.getTableCard());
 		assertNotNull(g2.getTableCard());
-		assertNotNull(g3.getTableCard());
 	}
 
 	@Test
 	public void testGetPlayers() {
-
+		// Para g1
+		assertEquals("Jogador Azul", g1.getBluePlayer().getName());
+		assertEquals("Jogador Vermelho", g1.getRedPlayer().getName());
+		assertEquals(Color.BLUE, g1.getBluePlayer().getPieceColor());
+		assertEquals(Color.RED, g1.getRedPlayer().getPieceColor());
+		// pega a table card
+		// confere qual jogador deveria ser o primeiro e se ele é o currentPlayer
+		Card t1 = g1.getTableCard();
+		assertEquals(t1.getColor(), g1.getCurrentPlayer().getPieceColor());
+	
+		// Para g2
+		assertEquals("Tiago Azul", g2.getBluePlayer().getName());
+		assertEquals("Tiago Vermelho", g2.getRedPlayer().getName());
+		assertEquals(Color.BLUE, g2.getBluePlayer().getPieceColor());
+		assertEquals(Color.RED, g2.getRedPlayer().getPieceColor());
+		// pega a table card
+		// confere qual jogador deveria ser o primeiro e se ele é o currentPlayer
+		Card t2 = g2.getTableCard();
+		assertEquals(t2.getColor(), g2.getCurrentPlayer().getPieceColor());
 	}
 
 	// Test mudança no currentPlayer após uma jogada
-	// Teste dos getters
 
 	// Teste do makeMove
+
+	// Teste que tenta fazer um movimento para fora do tabuleiro
+	@Test(expected = IllegalMovementException.class)
+	public void testMakeMoveOutsideTheBoard() {
+		Position[] p1 = { new Position(5, 5) };
+		Card c1 = new Card("Carta que pula para fora do tabuleiro", g1.getCurrentPlayer().getPieceColor(), p1);
+		if(g1.getCurrentPlayer().getPieceColor() == Color.RED)
+			g1.makeMove(c1, p1[0], new Position(4, 0));
+		else
+			g1.makeMove(c1, p1[0], new Position(0, 0));
+	}
+
+	// Teste que tenta fazer um movimento sendo o player azul no turno do player vermelho
+	@Test(expected = IncorrectTurnOrderException.class)
+	public void testMakeMoveIncorrectTurn() {
+		Color currentPlayerColor = g1.getCurrentPlayer().getPieceColor();
+		Color currentPlayerWrongColor;
+		if(currentPlayerColor == Color.BLUE){
+			currentPlayerWrongColor = Color.RED;
+			Position[] p1 = { new Position(1, 1) };
+			Card c1 = new Card("Carta comum", currentPlayerWrongColor, p1);
+			g1.makeMove(c1, p1[0], new Position(4, 0));
+		}
+		else{
+			currentPlayerWrongColor = Color.BLUE;
+			Position[] p1 = { new Position(1, 1) };
+			Card c1 = new Card("Carta comum", currentPlayerWrongColor, p1);
+			g1.makeMove(c1, p1[0], new Position(0, 0));			
+		}
+	}
+	// Teste que tenta fazer um movimento que incide numa peça da mesma cor
+
+	// Teste que tenta usar uma carta que não esteja na mão do jogador
+
+	// Teste que tenta usar uma peça que não exista
+
+	// Teste que verifica se a carta da mesa foi trocada com a carta da mão
+
+	// Teste que verifica se a posição antiga da peça foi liberada e a nova posição foi ocupada
 
 	// Teste do checkVictory
 }

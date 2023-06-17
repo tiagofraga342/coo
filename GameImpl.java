@@ -13,9 +13,8 @@ public class GameImpl implements Game {
 	
 	// Método para validar movimento
 	//TODO: testar
-	public boolean isValid(Spot s) {
-		if((s.getPosition().getRow() > 4 || s.getPosition().getRow() < 0) || (s.getPosition().getCol() > 4 || s.getPosition().getRow() < 0)) return false;
-		return true;
+	public boolean isNotValidMovement(int row, int col) {
+		return col > 4 || col < 0 || row > 4 || row < 0;
     }
 	// Método para atualizar a vez do jogador
 	private void updatePlayer() {
@@ -156,14 +155,17 @@ public class GameImpl implements Game {
     	int currentPosCol = currentPos.getCol();
     	int currentPosRow = currentPos.getRow();
     	
+    	// Vê se na posição atual existe uma peça e vê se a posição atual está dentro do tabuleiro
+    	if(board[currentPosRow][currentPosCol].getPiece() == null)
+    		throw new InvalidPieceException("ERRO: Não existe uma peça nessa posição");
     	// Verifica se é o jogador correto no turno
-    	if(board[currentPosRow][currentPosCol].getColor() != currentPlayer.getPieceColor())
+    	if(board[currentPosRow][currentPosCol].getPiece().getColor() != currentPlayer.getPieceColor())
     		throw new IncorrectTurnOrderException("ERRO: este não é o turno correto para esse jogador");
     	// Verifica se o movimento da peça não ultrapassa o tabuleiro
-    	if(!isValid(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol]))
+    	if(isNotValidMovement(currentPosRow + cardMoveRow, currentPosCol + cardMoveCol))
     		throw new IllegalMovementException("ERRO: Movimento inválido que ultrapassa os limites do tabuleiro");
     	// Verifica se o movimento da peça não incide em outra peça da mesma cor
-    	if(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].getColor() == board[currentPosRow][currentPosCol].getColor())
+    	if(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].getPiece().getColor() == board[currentPosRow][currentPosCol].getPiece().getColor())
     		throw new IllegalMovementException("ERRO: Movimento inválido que incide numa peça de mesma cor");
     	// Verifica se a carta usada está na mão do jogador atual
     	if(!currentPlayer.isOnHand(card))
@@ -171,9 +173,6 @@ public class GameImpl implements Game {
     	// Verifica se tenta usar uma peça que não está no tabuleiro
     	if(currentPosRow > 4 || currentPosCol > 4) 
     		throw new InvalidPieceException("ERRO: Essa peça não está no tabuleiro");
-    	// Vê se na posição atual existe uma peça e vê se a posição atual está dentro do tabuleiro
-    	if(board[currentPosRow][currentPosCol].getPiece() == null)
-    		throw new InvalidPieceException("ERRO: Não existe uma peça nessa posição");
     	
     	// Coloca a peça que estava na posição antiga na posição nova e atualiza a cor
     	board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].occupySpot(board[currentPosRow][currentPosCol].getPiece());
