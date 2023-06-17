@@ -3,9 +3,16 @@ import java.util.Random;
  * Classe que contém informações das cartas
  */
 public class Card {
-	private final String name;
+	private String name;
 	private Color color; //TODO: perguntar se deveria ser final?
-	private final Position[] positions;
+	private Position[] positions;
+	
+	public void copyCard(String name, Color color, Position[] positions) {
+		this.name = name;
+		this.color = color;
+		this.positions = positions;
+	}
+	
     /**
      * Construtor que define os principais atributos de uma cara
      * @param name Nome da carta

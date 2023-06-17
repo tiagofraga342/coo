@@ -66,21 +66,26 @@ public class Player {
     	int i;
     	boolean isOnHand = false;
     	for(i = 0; i < 2; i++) {
-    		if(cards[i] == oldCard) {
+    		if(cards[i].equals(oldCard)) {
     			isOnHand = true;
     			break;
     		}
     	}
+    	if(!isOnHand)
+    		throw new InvalidCardException("Esta carta não está na mão deste jogador");
     	
     	// Como acessar o deck da partida atual?
     	// if(cards[4] == newCard) throw new InvalidCardException("Erro na tentativa de troca das cartas: a nova carta não está na mesa");
     	// if(!isOnHand) throw new InvalidCardException("Erro na tentativa de troca das cartas: a carta antiga não esta na mão do jogador");
-    	
-    	Card temp = newCard;
     	cards[i] = newCard;
-		newCard = oldCard;
-		oldCard = temp;
+    	Card temp = new Card(newCard.getName(), newCard.getColor(), newCard.getPositions());
+    	newCard.copyCard(oldCard.getName(), oldCard.getColor(), oldCard.getPositions());
+    	oldCard.copyCard(temp.getName(), temp.getColor(), temp.getPositions());
+    	//Card temp = oldCard;
+    	//oldCard = newCard;
+    	//newCard = temp;
     }
+    
     public boolean isOnHand(Card card) {
     	for(int i = 0; i < 2; i++) {
     		if(cards[i] == card) {

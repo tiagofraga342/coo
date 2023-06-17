@@ -7,6 +7,10 @@ public class GameImpl implements Game {
 	private Player currentPlayer;
 	public final static int BOARD_SIZE = 5;
 	
+	public Spot[][] getBoard() {
+		return board;
+	}
+	
 	// Método para validar movimento
 	//TODO: testar
 	public boolean isValid(Spot s) {
@@ -156,7 +160,7 @@ public class GameImpl implements Game {
     	if(board[currentPosRow][currentPosCol].getColor() != currentPlayer.getPieceColor())
     		throw new IncorrectTurnOrderException("ERRO: este não é o turno correto para esse jogador");
     	// Verifica se o movimento da peça não ultrapassa o tabuleiro
-    	if(isValid(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol]))
+    	if(!isValid(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol]))
     		throw new IllegalMovementException("ERRO: Movimento inválido que ultrapassa os limites do tabuleiro");
     	// Verifica se o movimento da peça não incide em outra peça da mesma cor
     	if(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].getColor() == board[currentPosRow][currentPosCol].getColor())
