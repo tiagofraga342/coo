@@ -1,8 +1,6 @@
 /**
  * Enum contendo todos os movimentos das cartas
  */
-
-//TODO: Documentar esse enum
 enum Movement {
 	TIGER,
 	DRAGON,
@@ -12,9 +10,11 @@ enum Movement {
 	ELEPHANT,
 	GOOSE,
 	ROOSTER;
-	
-	// [row (linha)][col (coluna)]
-	
+
+	/**
+	 * Método que devolve um vetor com as posições de movimento de determinada carta
+	 * @return Vetor com posições de movimento para determinada carta
+	 */	
 	public Position[] getMovement() {
 		switch(this) {
 			case TIGER:
