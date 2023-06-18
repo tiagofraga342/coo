@@ -1,4 +1,8 @@
 Aluno 1: Tiago Lima Fraga
 Nº USP: 13859638
-Aluno 2: Matheus Santos Rocha
-Nº USP: 
+Aluno 2: Rafael Freitas Ghidella
+Nº USP: 13672126
+
+Comando para compilar o projeto: javac -cp libs/hamcrest-core-1.3.jar:libs/junit-4.13.jar:. *.java
+Comando para executar classe de teste (indicada pelo prefixo Test): java -cp libs/hamcrest-core-1.3.jar:libs/junit-4.13.jar:. org.junit.runner.JUnitCore <nome da classe> 
+Comando para executar classe comum: java <nome da classe>
