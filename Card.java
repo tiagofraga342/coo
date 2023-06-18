@@ -7,12 +7,6 @@ public class Card {
 	private Color color; //TODO: perguntar se deveria ser final?
 	private Position[] positions;
 	
-	public void copyCard(String name, Color color, Position[] positions) {
-		this.name = name;
-		this.color = color;
-		this.positions = positions;
-	}
-	
     /**
      * Construtor que define os principais atributos de uma cara
      * @param name Nome da carta
@@ -90,4 +84,16 @@ public class Card {
 		
 		return gameCards;
     }
+
+	/**
+	 * Método que copia as informações passadas como parâmetro para a carta
+	 * @param name Nome a ser copiado
+	 * @param color Cor a ser copiada
+	 * @param positions Posições de movimentos a serem copiadas
+	 */
+	public void copyCard(String name, Color color, Position[] positions) {
+		this.name = name;
+		this.color = color;
+		this.positions = positions;
+	}
 }

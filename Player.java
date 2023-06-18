@@ -62,35 +62,23 @@ public class Player {
      * @exception InvalidCardException Caso a carta não esteja na mão do jogador e/ou na mesa
      */
     protected void swapCard(Card oldCard, Card newCard) throws InvalidCardException {
-    	//TODO: Verifica se a carta está na mão do jogador ou na mesa
-    	int i;
-    	boolean isOnHand = false;
-    	for(i = 0; i < 2; i++) {
-    		if(cards[i].equals(oldCard)) {
-    			isOnHand = true;
-    			break;
-    		}
-    	}
-    	if(!isOnHand)
+    	if(!isOnHand(oldCard))
     		throw new InvalidCardException("Esta carta não está na mão deste jogador");
     	
-    	// Como acessar o deck da partida atual?
-    	// if(cards[4] == newCard) throw new InvalidCardException("Erro na tentativa de troca das cartas: a nova carta não está na mesa");
-    	// if(!isOnHand) throw new InvalidCardException("Erro na tentativa de troca das cartas: a carta antiga não esta na mão do jogador");
-    	cards[i] = newCard;
     	Card temp = new Card(newCard.getName(), newCard.getColor(), newCard.getPositions());
     	newCard.copyCard(oldCard.getName(), oldCard.getColor(), oldCard.getPositions());
     	oldCard.copyCard(temp.getName(), temp.getColor(), temp.getPositions());
-    	//Card temp = oldCard;
-    	//oldCard = newCard;
-    	//newCard = temp;
     }
     
+    /**
+     * Método que verifica se uma carta está na mão do jogador
+     * @param card Carta a ser buscada na mão do jogador
+     * @return Booleano true caso a carta esteja na mão do jogador e false caso contrário
+     */
     public boolean isOnHand(Card card) {
     	for(int i = 0; i < 2; i++) {
-    		if(cards[i] == card) {
+    		if(cards[i] == card)
     			return true;
-    		}
     	}
     	return false;
     }
