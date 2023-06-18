@@ -5,6 +5,7 @@ public class Player {
 	private final String name;
 	private final Color pieceColor;
 	private Card[] cards = new Card[2];
+    
     /**
      * Construtor que define informações básicas do jogador
      * @param name Nome do jogador

@@ -86,7 +86,6 @@ public class TestSpot {
 		// Verifica se o Spot liberado realmente foi liberado
 		board[1][1].occupySpot(board[0][0].getPiece());
 		board[1][1].releaseSpot();
-		assertNull(board[1][1].getColor());
 		assertNull(board[1][1].getPiece());
 	}
 }

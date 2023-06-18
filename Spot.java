@@ -5,6 +5,7 @@ public class Spot {
 	private Piece piece;
 	private Position pos;
 	private Color color;
+
     /**
      * Construtor para espaços com peça e com cor
      * @param piece Peça que inicia nesse espaço do tabuleiro
@@ -75,10 +76,9 @@ public class Spot {
     }
 
     /**
-     * Método que "libera" o espaço atual, ou seja, deixa-o vazio
+     * Método que desocupa o espaço atual
      */
     protected void releaseSpot() {
-    	this.color = null;
     	this.piece = null;
     }
 }
