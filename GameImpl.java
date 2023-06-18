@@ -62,8 +62,7 @@ public class GameImpl implements Game {
 	}
 	public GameImpl(String redPlayerName, String bluePlayerName, Card[] deck) {
 		board = buildBoard();
-		// Embaralha o deck
-		Card.suffleDeck(deck);
+		Card.shuffleDeck(deck);
 		redPlayer = new Player(redPlayerName, Color.RED, deck[0], deck[1]);
 		bluePlayer = new Player(bluePlayerName, Color.BLUE, deck[2], deck[3]);
 		tableCard = gameDeck[4];

@@ -63,32 +63,17 @@ public class Card {
     			new Card("Crab", Color.BLUE, Movement.CRAB.getMovement()),
     			new Card("Elephant", Color.RED, Movement.ELEPHANT.getMovement()),
     			new Card("Goose", Color.BLUE, Movement.GOOSE.getMovement()),
-    			new Card("Rooster", Color.RED, Movement.ROOSTER.getMovement())
-    	};
-    	Random rand = new Random();
-		Card[] gameCards = new Card[5];
-		
-		/*for(int i = 0; i < 5; i++) {
-			int randomIndexToSwap = rand.nextInt(8);
-			gameCards[i] = allCards[randomIndexToSwap];
-		}*/
-		
-		for (int i = 0; i < 8; i++) {
-			int randomIndexToSwap = rand.nextInt(8);
-			Card temp = allCards[randomIndexToSwap];
-			allCards[randomIndexToSwap] = allCards[i];
-			allCards[i] = temp;
-		}
-
-		for(int i = 0; i < 5; i++) {
-			gameCards[i] = allCards[i];
-		}
-		
-		return gameCards;
+    			new Card("Rooster", Color.RED, Movement.ROOSTER.getMovement()) };
+    	
+		return shuffleDeck(allCards);
     }
     
-    // Recebe um deck e embaralha ele e retorna um vetor com 5 cartas para o jogo
-    public static Card[] suffleDeck(Card[] deck) {
+	/**
+	 * Método que recebe um vetor de cartas de tamanho indefinido, embaralha-o e retorna um vetor com 5 cartas
+	 * @param deck Vetor de cartas de tamanho indefinido
+	 * @return Vetor com 5 cartas
+	 */
+    public static Card[] shuffleDeck(Card[] deck) {
     	Random rand = new Random();
 		Card[] gameCards = new Card[5];
 		
@@ -104,6 +89,5 @@ public class Card {
 		}
 		
 		return gameCards;
-
     }
 }
