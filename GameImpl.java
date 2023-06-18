@@ -10,9 +10,13 @@ public class GameImpl implements Game {
 	public Spot[][] getBoard() {
 		return board;
 	}
-	
+	public void setCurrentPlayer(Color color) {
+		if(color == Color.RED)
+			currentPlayer = redPlayer;
+		else
+			currentPlayer = bluePlayer;
+	}
 	// Método para validar movimento
-	//TODO: testar
 	public boolean isNotValidMovement(int row, int col) {
 		return col > 4 || col < 0 || row > 4 || row < 0;
     }
@@ -155,24 +159,25 @@ public class GameImpl implements Game {
     	int currentPosCol = currentPos.getCol();
     	int currentPosRow = currentPos.getRow();
     	
-    	// Vê se na posição atual existe uma peça e vê se a posição atual está dentro do tabuleiro
-    	if(board[currentPosRow][currentPosCol].getPiece() == null)
-    		throw new InvalidPieceException("ERRO: Não existe uma peça nessa posição");
-    	// Verifica se é o jogador correto no turno
-    	if(board[currentPosRow][currentPosCol].getPiece().getColor() != currentPlayer.getPieceColor())
-    		throw new IncorrectTurnOrderException("ERRO: este não é o turno correto para esse jogador");
     	// Verifica se o movimento da peça não ultrapassa o tabuleiro
     	if(isNotValidMovement(currentPosRow + cardMoveRow, currentPosCol + cardMoveCol))
     		throw new IllegalMovementException("ERRO: Movimento inválido que ultrapassa os limites do tabuleiro");
-    	// Verifica se o movimento da peça não incide em outra peça da mesma cor
-    	if(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].getPiece().getColor() == board[currentPosRow][currentPosCol].getPiece().getColor())
-    		throw new IllegalMovementException("ERRO: Movimento inválido que incide numa peça de mesma cor");
-    	// Verifica se a carta usada está na mão do jogador atual
-    	if(!currentPlayer.isOnHand(card))
-    		throw new InvalidCardException("ERRO: Esta carta não está na mão do jogador atual");
+    	// Vê se na posição atual existe uma peça e vê se a posição atual está dentro do tabuleiro
+    	if(board[currentPosRow][currentPosCol].getPiece() == null)
+    		throw new InvalidPieceException("ERRO: Não existe uma peça nessa posição");
     	// Verifica se tenta usar uma peça que não está no tabuleiro
     	if(currentPosRow > 4 || currentPosCol > 4) 
     		throw new InvalidPieceException("ERRO: Essa peça não está no tabuleiro");
+    	// Verifica se é o jogador correto no turno
+    	if(board[currentPosRow][currentPosCol].getPiece().getColor() != currentPlayer.getPieceColor())
+    		throw new IncorrectTurnOrderException("ERRO: este não é o turno correto para esse jogador");
+    	// Verifica se o movimento da peça não incide em outra peça da mesma cor
+    	if(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].getPiece() != null)
+    		if(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].getPiece().getColor() == board[currentPosRow][currentPosCol].getPiece().getColor())
+    			throw new IllegalMovementException("ERRO: Movimento inválido que incide numa peça de mesma cor");
+    	// Verifica se a carta usada está na mão do jogador atual
+    	if(!currentPlayer.isOnHand(card))
+    		throw new InvalidCardException("ERRO: Esta carta não está na mão do jogador atual");
     	
     	// Coloca a peça que estava na posição antiga na posição nova e atualiza a cor
     	board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].occupySpot(board[currentPosRow][currentPosCol].getPiece());
@@ -201,7 +206,7 @@ public class GameImpl implements Game {
     	int blueMasterCol = -1;
     	for(int i = 0; i < 5; i++) {
     		for(int j = 0; j < 5; j++) {
-    			if(board[i][j].getPiece().isMaster()) {
+    			if(board[i][j].getPiece() != null && board[i][j].getPiece().isMaster()) {
     				if(board[i][j].getColor() == Color.RED) {
     					thereIsRedMaster = true;
     					redMasterRow = i;
