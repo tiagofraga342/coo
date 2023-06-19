@@ -5,7 +5,7 @@ public class Player {
 	private final String name;
 	private final Color pieceColor;
 	private Card[] cards = new Card[2];
-    
+
     /**
      * Construtor que define informações básicas do jogador
      * @param name Nome do jogador
@@ -63,7 +63,7 @@ public class Player {
      * @exception InvalidCardException Caso a carta não esteja na mão do jogador e/ou na mesa
      */
     protected void swapCard(Card oldCard, Card newCard) throws InvalidCardException {
-    	if(!isOnHand(oldCard))
+    	if(!cardIsOnPlayerHand(oldCard))
     		throw new InvalidCardException("Esta carta não está na mão deste jogador");
     	
     	Card temp = new Card(newCard.getName(), newCard.getColor(), newCard.getPositions());
@@ -76,7 +76,7 @@ public class Player {
      * @param card Carta a ser buscada na mão do jogador
      * @return Booleano true caso a carta esteja na mão do jogador e false caso contrário
      */
-    public boolean isOnHand(Card card) {
+    public boolean cardIsOnPlayerHand(Card card) {
     	for(int i = 0; i < 2; i++) {
     		if(cards[i] == card)
     			return true;

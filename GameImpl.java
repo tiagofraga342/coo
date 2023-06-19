@@ -7,43 +7,55 @@ public class GameImpl implements Game {
 	private Player currentPlayer;
 	public final static int BOARD_SIZE = 5;
 	
+	/**
+	 * Método que retorna o tabuleiro atual do jogo
+	 * @return Matriz do tipo Spot 
+	 */
 	public Spot[][] getBoard() {
 		return board;
 	}
+
+	/**
+	 * Método que determina o jogador atual
+	 * @param color Cor do jogador atual
+	 */
 	public void setCurrentPlayer(Color color) {
 		if(color == Color.RED)
 			currentPlayer = redPlayer;
 		else
 			currentPlayer = bluePlayer;
 	}
-	// Método para validar movimento
-	public boolean isNotValidMovement(int row, int col) {
+
+	/**
+	 * Método que verifica se um movimento é inválido (ultrapassa os limites do tabuleiro)
+	 * @param row Inteiro com a coordenada da linha do movimento
+	 * @param col Inteiro com coordenada com coluna do movimento
+	 * @return Booleano true caso o movimento seja inválido e false caso o movimento seja válido
+	 */
+	private boolean isNotValidPosition(int row, int col) {
 		return col > 4 || col < 0 || row > 4 || row < 0;
     }
-	// Método para atualizar a vez do jogador
+	
+	/**
+	 * Método que atualiza o jogador atual
+	 */
 	private void updatePlayer() {
 		if(currentPlayer == bluePlayer) currentPlayer = redPlayer;
 		else currentPlayer = bluePlayer;
 	}
-	// Método para determinar a tableCard e o primeiro a jogar
+
+	/**
+	 * Método que devolve o primeiro jogador a jogar baseado na cor da carta da mesa
+	 * @return Um Objeto do tipo Player que será o jogador que fará a primeira jogada
+	 */
 	private Player setFirstPlayer() {
 		if(tableCard.getColor() == Color.BLUE) return bluePlayer;
 		return redPlayer;
 	}
-	// Método que verifica se tenta usar uma carta que não esteja na mão do jogador da vez
-	private boolean verifyIfPlayerDeckContainsCard(Card card) {
-		Card[] playerDeck = currentPlayer.getCards();
-		for(int i = 0; i < 2; i++) {
-			if(playerDeck[i] == card);
-		}
-		return false;
-	}
-	// Método que verifica se é o turno correto do jogador a fazer a jogada
-	private boolean verifyPlayerTurn(Player player) {
-		if(player == currentPlayer) return true;
-		return false;
-	}
-	//TODO: Método que verifica se uma peça que não está no tabuleiro tente ser usada
+	
+	/**
+	 * Construtor que define as informações básicas para iniciar uma partida
+	 */
 	public GameImpl() {
 		board = buildBoard();
 		gameDeck = Card.createCards();
@@ -52,6 +64,12 @@ public class GameImpl implements Game {
 		tableCard = gameDeck[4];
 		currentPlayer = setFirstPlayer();
 	}
+
+	/**
+	 * Construtor que define as informações básicas para iniciar uma partida
+	 * @param redPlayerName String com o nome do jogador vermelho
+	 * @param bluePlayerName String com o nome do jogador azul
+	 */
 	public GameImpl(String redPlayerName, String bluePlayerName) {
 		board = buildBoard();
 		gameDeck = Card.createCards();
@@ -60,6 +78,13 @@ public class GameImpl implements Game {
 		tableCard = gameDeck[4];
 		currentPlayer = setFirstPlayer();
 	}
+
+	/**
+	 * Construtor que define as informações básicas para iniciar uma partida
+	 * @param redPlayerName String com o nome do jogador vermelho
+	 * @param bluePlayerName String com o nome do jogador azul
+	 * @param deck Vetor de cartas
+	 */
 	public GameImpl(String redPlayerName, String bluePlayerName, Card[] deck) {
 		board = buildBoard();
 		Card.shuffleDeck(deck);
@@ -69,16 +94,19 @@ public class GameImpl implements Game {
 		currentPlayer = setFirstPlayer();
 	}
 	
+	/**
+	 * Método que constrói o tabuleiro da partida
+	 * @return Matriz de spot que representa o tabuleiro
+	 */
 	private Spot[][] buildBoard() {
-		// Meio do tabuleiro
+
 		for(int i = 1; i < BOARD_SIZE - 1; i++) {
 			for(int j = 0; j < BOARD_SIZE; j++) {
 				board[i][j] = new Spot(new Position(i, j));
 			}
 		}
-		// Parte colorida
+
 		for(int i = 0; i < BOARD_SIZE; i++) {
-			// Templo
 			if(i == 2) {
 				board[0][i] = new Spot(new Piece(Color.BLUE, true), new Position(0, i), Color.BLUE);
 				board[4][i] = new Spot(new Piece(Color.RED, true), new Position(4, i), Color.RED);
@@ -138,9 +166,14 @@ public class GameImpl implements Game {
     	return bluePlayer;
     }
 
+	/**
+	 * Método que devolve as informações sobre o jogador atual
+	 * @return Um objeto Player que representa o jogador atual
+	 */
     public Player getCurrentPlayer() {
     	return currentPlayer;
     }
+
     /**
      * Método que move uma peça
      * @param card A carta de movimento que será usada
@@ -152,39 +185,37 @@ public class GameImpl implements Game {
      * @exception InvalidPieceException Caso uma peça que não está no tabuleiro seja usada
      */
     public void makeMove(Card card, Position cardMove, Position currentPos) throws IncorrectTurnOrderException, IllegalMovementException, InvalidCardException, InvalidPieceException {
-    	// Pega as colunas e linhas das posições
     	int cardMoveCol = cardMove.getCol();
     	int cardMoveRow = cardMove.getRow();
     	int currentPosCol = currentPos.getCol();
     	int currentPosRow = currentPos.getRow();
     	
     	// Verifica se o movimento da peça não ultrapassa o tabuleiro
-    	if(isNotValidMovement(currentPosRow + cardMoveRow, currentPosCol + cardMoveCol))
-    		throw new IllegalMovementException("ERRO: Movimento inválido que ultrapassa os limites do tabuleiro");
-    	// Vê se na posição atual existe uma peça e vê se a posição atual está dentro do tabuleiro
+    	if(isNotValidPosition(currentPosRow + cardMoveRow, currentPosCol + cardMoveCol))
+    		throw new IllegalMovementException("Movimento inválido que ultrapassa os limites do tabuleiro");
+    	if(isNotValidPosition(currentPosRow, currentPosCol)) 
+    		throw new InvalidPieceException("Essa peça não está no tabuleiro");
+		
+		// Vê se na posição atual existe uma peça e vê se a posição atual está dentro do tabuleiro
     	if(board[currentPosRow][currentPosCol].getPiece() == null)
-    		throw new InvalidPieceException("ERRO: Não existe uma peça nessa posição");
-    	// Verifica se tenta usar uma peça que não está no tabuleiro
-    	if(currentPosRow > 4 || currentPosCol > 4) 
-    		throw new InvalidPieceException("ERRO: Essa peça não está no tabuleiro");
+    		throw new InvalidPieceException("Não existe uma peça nessa posição");
+
     	// Verifica se é o jogador correto no turno
     	if(board[currentPosRow][currentPosCol].getPiece().getColor() != currentPlayer.getPieceColor())
-    		throw new IncorrectTurnOrderException("ERRO: este não é o turno correto para esse jogador");
+    		throw new IncorrectTurnOrderException("Este não é o turno correto para esse jogador");
+
     	// Verifica se o movimento da peça não incide em outra peça da mesma cor
     	if(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].getPiece() != null)
     		if(board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].getPiece().getColor() == board[currentPosRow][currentPosCol].getPiece().getColor())
-    			throw new IllegalMovementException("ERRO: Movimento inválido que incide numa peça de mesma cor");
+    			throw new IllegalMovementException("Movimento inválido que incide numa peça de mesma cor");
+		
     	// Verifica se a carta usada está na mão do jogador atual
-    	if(!currentPlayer.isOnHand(card))
-    		throw new InvalidCardException("ERRO: Esta carta não está na mão do jogador atual");
+    	if(!currentPlayer.cardIsOnPlayerHand(card))
+    		throw new InvalidCardException("Esta carta não está na mão do jogador atual");
     	
-    	// Coloca a peça que estava na posição antiga na posição nova e atualiza a cor
     	board[currentPosRow + cardMoveRow][currentPosCol + cardMoveCol].occupySpot(board[currentPosRow][currentPosCol].getPiece());
-    	// Libera a posição antiga e atualiza a cor
     	board[currentPosRow][currentPosCol].releaseSpot(); 
-    	// Troca a carta do jogador atual com a da mesa
     	currentPlayer.swapCard(card, tableCard);
-    	// Atualiza o jogador atual
     	updatePlayer();
     }
 
@@ -196,13 +227,13 @@ public class GameImpl implements Game {
      * @return Um booleano true para caso esteja em condições de vencer e false caso contrário
      */
     public boolean checkVictory(Color color) {
-    	// Busca posição do mestre adversário e do mestre da cor atual
     	boolean thereIsRedMaster = false;
+		boolean thereIsBlueMaster = false;
     	int redMasterRow = -1;
     	int redMasterCol = -1;
-    	boolean thereIsBlueMaster = false;
     	int blueMasterRow = -1;
     	int blueMasterCol = -1;
+
     	for(int i = 0; i < 5; i++) {
     		for(int j = 0; j < 5; j++) {
     			if(board[i][j].getPiece() != null && board[i][j].getPiece().isMaster()) {
@@ -219,6 +250,7 @@ public class GameImpl implements Game {
     			}
     		}
     	}
+
     	// Se não existe o mestre da cor no tabuleiro
     	if(!thereIsBlueMaster && color == Color.RED) return true;
     	if(!thereIsRedMaster && color == Color.BLUE) return true;
@@ -228,6 +260,7 @@ public class GameImpl implements Game {
     		return true;
     	else if(redMasterRow == 0 && redMasterCol == 2 && color == Color.RED)
     		return true;
+
     	return false;
     }
 

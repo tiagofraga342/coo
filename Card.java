@@ -4,7 +4,7 @@ import java.util.Random;
  */
 public class Card {
 	private String name;
-	private Color color; //TODO: perguntar se deveria ser final?
+	private Color color;
 	private Position[] positions;
 	
     /**
