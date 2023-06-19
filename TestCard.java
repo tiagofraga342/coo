@@ -20,7 +20,6 @@ public class TestCard {
 			fail("Falha na criação do objeto!");
 	}
 
-	// Teste métodos getters
 	@Test
 	public void testGetName() {
 		assertEquals("Carta 1", c1.getName());
@@ -43,6 +42,9 @@ public class TestCard {
 	}
 
 	// Teste createCards
-
-	// Teste suffleDeck
+	@Test
+	public void testCreateCards() {
+		Card[] cards = Card.createCards();
+		assertNotNull(cards);
+	}
 }
