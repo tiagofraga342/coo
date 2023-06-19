@@ -9,7 +9,7 @@ public class GameImpl implements Game {
 	
 	/**
 	 * Método que retorna o tabuleiro atual do jogo
-	 * @return Matriz do tipo Spot 
+	 * @return Matriz de objetos Spot 
 	 */
 	public Spot[][] getBoard() {
 		return board;
@@ -99,7 +99,6 @@ public class GameImpl implements Game {
 	 * @return Matriz de spot que representa o tabuleiro
 	 */
 	private Spot[][] buildBoard() {
-
 		for(int i = 1; i < BOARD_SIZE - 1; i++) {
 			for(int j = 0; j < BOARD_SIZE; j++) {
 				board[i][j] = new Spot(new Position(i, j));

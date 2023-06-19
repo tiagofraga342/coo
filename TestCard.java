@@ -41,7 +41,6 @@ public class TestCard {
 		}
 	}
 
-	// Teste createCards
 	@Test
 	public void testCreateCards() {
 		Card[] cards = Card.createCards();

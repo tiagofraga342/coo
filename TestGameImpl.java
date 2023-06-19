@@ -17,11 +17,6 @@ public class TestGameImpl {
 	}
 
 	@Test
-	public void testBuildBoard() {
-
-	}
-
-	@Test
 	public void testGetSpotColor() {
 		assertEquals(Color.BLUE, g1.getSpotColor(new Position(0, 2)));
 		assertEquals(Color.RED, g1.getSpotColor(new Position(4, 2)));
